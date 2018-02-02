@@ -117,15 +117,18 @@ class EDD_RI {
 
 		if ( $price > 0 ) {
 
-			$args['key'] = urldecode( $data['license'] );
-			$edd_sl      = EDD_Software_Licensing();
-			$status      = $edd_sl->check_license( $args );
-
-			if ( 'valid' !== $status ) {
+			if ( function_exists( 'edd_software_licensing' ) ) {
+				if ( ! isset( $data['license'] ) ) {
+					return 'invalid';
+				}
+				$args['key'] = urldecode( $data['license'] );
+				$status      = edd_software_licensing()->check_license( $args );
+			}
+			if ( 'valid' !== $status && 'inactive' !== $status ) {
 				return $status;
 			}
 
-			$license_id = $edd_sl->get_license_by_key( $args['key'] );
+			$license_id = edd_software_licensing()->get_license_by_key( $args['key'] );
 			$payment_id = get_post_meta( $license_id, '_edd_sl_payment_id', true );
 			$user_info  = edd_get_payment_meta_user_info( $payment_id );
 
