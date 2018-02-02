@@ -131,15 +131,19 @@ class EDD_RI {
 
 		}
 
-		$download_files = edd_get_download_files( $download );
+		$download_files = array_values( edd_get_download_files( $download ) );
 
-		$file = apply_filters( 'edd_requested_file', $download_files[0]['file'], $download_files, $key );
+		if ( ! isset( $download_files[0] ) ) {
+			wp_die();
+		}
+
+		$file = apply_filters( 'edd_requested_file', $download_files[0]['file'], $download_files, '' );
 
 		$this->build_file( $file );
 
 		edd_record_download_in_log( $download, $key, $user_info, edd_get_ip(), $payment );
 
-		exit;
+		wp_die();
 	}
 
 	/**
