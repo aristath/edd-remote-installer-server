@@ -21,9 +21,4 @@ if ( ! defined( 'ABSPATH' ) ) {
 if ( ! class_exists( 'EDD_RI' ) ) {
 	require( dirname( __FILE__ ) . '/inc/class-edd-ri.php' );
 }
-if ( ! class_exists( 'EDD_RI_Admin' ) ) {
-	require( dirname( __FILE__ ) . '/inc/class-edd-ri-admin.php' );
-}
-
 new EDD_RI();
-new EDD_RI_Admin();
